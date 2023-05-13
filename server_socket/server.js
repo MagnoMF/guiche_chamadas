@@ -1,18 +1,18 @@
 const express = require("express");
 const socket = require("socket.io");
 const http = require("http");
+const cors = require("cors");
 
 const app = express();
+app.use(cors());
 const PORT = process.envPORT || 8080;
 const httpServer = http.createServer(app);
 const io = socket(httpServer, {
   path: "/socket.io",
   cors: {
-    origin: "http://localhost:8080",
+    origin: "http://localhost:3001",
   },
 });
-
-const reqChamadas = [];
 
 io.on("connection", (client) => {
   console.log(client.id);
@@ -21,40 +21,49 @@ io.on("connection", (client) => {
 io.on("disconnect", (client) => {
   console.log(client.id);
 });
+
+// Variaveis de controle requisições
+const reqChamadas = [];
+let senha = 0;
 let multiplicadorTimeout = 0;
 let timeoutClear;
-let arrChamados = [];
 
 function clearMultiplicadorTimeout() {
   clearTimeout(timeoutClear);
-  console.log("reset time clear timout");
   timeoutClear = setTimeout(() => {
     multiplicadorTimeout = 0;
-    console.log("timeouLimpo");
   }, 2000);
 }
-function loopArr() {
+
+function handleChamadas() {
   reqChamadas.forEach((chamada) => {
-    multiplicadorTimeout++;
     reqChamadas.pop();
     setTimeout(() => {
       clearMultiplicadorTimeout();
-      console.log(multiplicadorTimeout);
-      arrChamados.push(chamada);
-      console.log(arrChamados);
-    }, 1000 * (multiplicadorTimeout + 1));
+      senha++;
+      io.emit("chamarProximo", { chamada, senha });
+    }, 5000 * multiplicadorTimeout);
+    multiplicadorTimeout++;
   });
 }
 
-app.get("/chamarProximo", async (req, res) => {
-  if (!req.query) {
-    return res.json({ Erro: "Guiche ou action não enviado" });
+app.post("/chamarProximo", (req, res) => {
+  try {
+    const requisicao = req.query;
+    if (!requisicao.guiche && !requisicao.action)
+      return res
+        .status(500)
+        .json({
+          message: "Número de guiche ou action não foram enviados",
+          status: 500,
+        });
+
+    reqChamadas.unshift(requisicao);
+    handleChamadas();
+    res.status(200).json({ message: `Chamando proximo...`, status: 200 });
+  } catch (err) {
+    res.status(500).json({ message: `${err}`, status: 500 });
   }
-  const guiche = Math.floor(Math.random() * 999);
-  const requisicao = { guiche: guiche, action: "chamar" };
-  reqChamadas.unshift(requisicao);
-  loopArr();
-  return res.json(reqChamadas);
 });
 
 httpServer.listen(PORT, () => {
