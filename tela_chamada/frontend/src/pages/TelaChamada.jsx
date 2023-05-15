@@ -1,10 +1,40 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import chamarProximo from "../functions/chamarProximo";
-import { Grid, Select, Avatar, Button, Title, Text } from "@mantine/core";
-import logotipo from "../imagens/logotipo.jpg";
+import pularSenha from "../functions/pularSenha";
+import { Grid, Select, Avatar, Button, Title, Modal } from "@mantine/core";
+import { socket } from "../socket";
 
 export default function TelaChamada() {
-  const [numeroGuiche, setNumeroGuiche] = useState(0);
+  const [numGuiche, setNumGuiche] = useState(null);
+  const [numGuicheTravado, setNumGuicheTravado] = useState(false);
+  const [chamando, setChamando] = useState(false);
+  const [senhaAtual, setSenhaAtual] = useState(0);
+
+  useEffect(() => {
+    socket.connect();
+    socket.on("senhaGuiche", (numSenha) => {
+      mudarSenhaAtual(numSenha.senha);
+    });
+  }, []);
+
+  function mudarSenhaAtual(senha) {
+    if (senha > 99) {
+      setSenhaAtual(99);
+      return
+    }
+    if(senha < 1) {
+      setSenhaAtual(1)
+      return
+    }
+    setSenhaAtual(senha);
+  }
+
+  function travarBotoes() {
+    setChamando(true);
+    setTimeout(() => {
+      setChamando(false);
+    }, 2000);
+  }
 
   return (
     <>
@@ -32,6 +62,8 @@ export default function TelaChamada() {
           span={"auto"}
         >
           <Select
+            disabled={numGuicheTravado}
+            onChange={setNumGuiche}
             label="Selecionar número do Guichê"
             placeholder="Número guiche"
             searchable
@@ -47,8 +79,17 @@ export default function TelaChamada() {
           }}
           span={"auto"}
         >
-          <Button style={{ boxShadow: "0 3px 10px rgb(0 0 0 / 0.2)" }}>
-            Travar Seleção
+          <Button
+            onClick={() => {
+              setNumGuicheTravado((prevState) => {
+                if (numGuiche) {
+                  return !prevState;
+                }
+              });
+            }}
+            style={{ boxShadow: "0 3px 10px rgb(0 0 0 / 0.2)" }}
+          >
+            {numGuicheTravado ? "Destravar Seleção" : "Travar Seleção"}
           </Button>
         </Grid.Col>
       </Grid>
@@ -72,38 +113,87 @@ export default function TelaChamada() {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              
             }}
           >
             <Title style={{ fontSize: "3em" }}> Senha Atual</Title>
           </div>
+
           <div
             style={{
               height: "33%",
               display: "flex",
-              justifyContent: "center",
+              justifyContent: "space-around",
               alignItems: "center",
             }}
           >
-            <Title style={{ fontSize: "5em" }}>{35}</Title>
+            <Button
+              disabled={!numGuicheTravado || chamando}
+              onClick={() => {
+                mudarSenhaAtual(parseInt(senhaAtual) - 1);
+              }}
+              style={{
+                borderRadius: "200em",
+                height: "5em",
+                width: "5em",
+              }}
+            >
+              <h1>-</h1>
+            </Button>
+            <Title style={{ fontSize: "5em" }}>{senhaAtual}</Title>
+            <Button
+              disabled={!numGuicheTravado || chamando}
+              onClick={() => {
+                mudarSenhaAtual(parseInt(senhaAtual) + 1);
+              }}
+              style={{
+                borderRadius: "200em",
+                height: "5em",
+                width: "5em",
+              }}
+            >
+              +
+            </Button>
           </div>
           <div
             style={{
               display: "flex",
               alignItems: "center",
-              justifyContent: "center",
+              justifyContent: "space-around",
               height: "33%",
             }}
           >
             <Button
+              disabled={!numGuicheTravado || chamando}
+              onClick={() => {
+                chamarProximo(numGuiche);
+                travarBotoes();
+              }}
               style={{
-                height: "7em",
-                width: "80%",
-                borderRadius: ".8em",
+                height: "2em",
+                width: "40%",
+                borderRadius: ".2em",
                 boxShadow: "0 3px 10px rgb(0 0 0 / 0.2)",
+                fontSize: "3em",
               }}
             >
-              Chamar Próximo
+              Chamar
+            </Button>
+
+            <Button
+              disabled={!numGuicheTravado || chamando}
+              onClick={() => {
+                pularSenha({ numGuiche, senha: senhaAtual });
+                travarBotoes();
+              }}
+              style={{
+                height: "2em",
+                width: "40%",
+                borderRadius: ".2em",
+                boxShadow: "0 3px 10px rgb(0 0 0 / 0.2)",
+                fontSize: "3em",
+              }}
+            >
+              Pular..
             </Button>
           </div>
         </Grid.Col>

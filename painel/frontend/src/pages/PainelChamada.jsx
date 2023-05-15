@@ -16,7 +16,7 @@ export default function PainelChamada() {
       handleChamada(chamada);
 
       const toSpeak = new SpeechSynthesisUtterance(
-        `Senha ${chamada.senha}, compareça ao guichê ${chamada.chamada.guiche}`
+        `Senha ${chamada.senha} GUICHÊ ${chamada.chamada.guiche}`
       );
       synth.speak(toSpeak);
     });
