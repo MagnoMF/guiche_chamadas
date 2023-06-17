@@ -10,7 +10,7 @@ const httpServer = http.createServer(app);
 const io = socket(httpServer, {
   path: "/socket.io",
   cors: {
-    origin: ["http://localhost:3000", "http://localhost:3001"],
+    origin: "*",
   },
 });
 
@@ -89,7 +89,6 @@ app.post("/chamarProximo", (req, res) => {
 app.post("/pularSenha", (req, res) => {
   try {
     const requisicao = req.query;
-    console.log(requisicao);
     if (!requisicao.guiche && !requisicao.action && !requisicao.senha)
       return res.status(500).json({
         message: "Número de guiche ou action não foram enviados",
