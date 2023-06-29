@@ -5,7 +5,7 @@ const cors = require("cors");
 
 const app = express();
 app.use(cors());
-const PORT = process.envPORT || 8080;
+const PORT = process.env.SOCKET_PORT || 8100;
 const httpServer = http.createServer(app);
 const io = socket(httpServer, {
   path: "/socket.io",
@@ -61,7 +61,7 @@ function handlePularSenha(pularSenha) {
     reqChamadas.pop();
     setTimeout(() => {
       clearMultiplicadorTimeout();
-      senha = pularSenha
+      senha = pularSenha;
       io.emit("chamarProximo", { chamada, senha });
       io.emit("senhaGuiche", { senha });
     }, 5000 * multiplicadorTimeout);
@@ -72,11 +72,12 @@ function handlePularSenha(pularSenha) {
 app.post("/chamarProximo", (req, res) => {
   try {
     const requisicao = req.query;
-    if (!requisicao.guiche && !requisicao.action)
+    if (!requisicao.guiche && !requisicao.action) {
       return res.status(500).json({
         message: "Número de guiche ou action não foram enviados",
         status: 500,
       });
+    }
 
     reqChamadas.unshift(requisicao);
     handleChamadas();
@@ -89,11 +90,12 @@ app.post("/chamarProximo", (req, res) => {
 app.post("/pularSenha", (req, res) => {
   try {
     const requisicao = req.query;
-    if (!requisicao.guiche && !requisicao.action && !requisicao.senha)
+    if (!requisicao.guiche && !requisicao.action && !requisicao.senha) {
       return res.status(500).json({
         message: "Número de guiche ou action não foram enviados",
         status: 500,
       });
+    }
 
     reqChamadas.unshift(requisicao);
     handlePularSenha(requisicao.senha);

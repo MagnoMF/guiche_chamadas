@@ -105,7 +105,6 @@ export default function PainelChamada() {
             <div
               style={{
                 width: "100%",
-                boxShadow: "0 3px 10px rgb(0 0 0 / 0.2)",
                 borderRadius: ".5em",
                 display: "flex",
                 flexDirection: "row",
@@ -146,7 +145,6 @@ export default function PainelChamada() {
               height: "100%",
               boxShadow: "0 3px 10px rgb(0 0 0 / 0.2)",
               borderRadius: ".5em",
-              boxShadow: "0 3px 10px rgb(0 0 0 / 0.2)",
               backgroundColor: "#f8f7ff",
               textAlign: "center",
             }}
