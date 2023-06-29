@@ -16,9 +16,9 @@ RUN mkdir -p /app \
 #RUN mkdir /etc/nginx/servers
 #COPY /server_socket/* $SOCKET_DIR
 RUN chmod -R $USER 755 $PAINEL_DIR
-COPY /painel/* /painel
+#COPY /painel/* /painel
 COPY nginx.conf /etc/nginx/nginx.conf
-COPY /painel/frontend/build/* $PAINEL_DIR
+COPY /painel/frontend/build/ $PAINEL_DIR
 #RUN cd /painel/frontend && npm install
   #&& npm run build \
   #&& cp build/* usr/share/nginx/html
