@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { socket } from "../socket";
-import { Center, Grid, Text, Title } from "@mantine/core";
+import { socket } from "../functions/socketConnection";
+import { Grid, Text, Title } from "@mantine/core";
 
 export default function PainelChamada() {
   const [arrChamadas, setArrChamadas] = useState([]);
@@ -12,7 +12,6 @@ export default function PainelChamada() {
   function handleChamada(chamada) {
     setChamando(chamada);
     setArrChamadas((prevState) => {
-      console.log(prevState);
       return [...prevState.slice(-9), chamada];
     });
   }
@@ -156,6 +155,7 @@ export default function PainelChamada() {
               {arrChamadas.map((chamadaAnterior, keyMap) => {
                 return (
                   <Text
+                    key={keyMap}
                     style={{
                       textAlign: "center",
                       fontSize: "1.5em",

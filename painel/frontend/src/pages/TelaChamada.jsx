@@ -2,7 +2,7 @@ import { React, useEffect, useState } from "react";
 import chamarProximo from "../functions/chamarProximo";
 import pularSenha from "../functions/pularSenha";
 import { Avatar, Button, Grid, Select, Title } from "@mantine/core";
-import { socket } from "../socket";
+import { socket } from "../functions/socketConnection";
 
 export default function TelaChamada() {
   const [numGuiche, setNumGuiche] = useState(null);

@@ -1,0 +1,14 @@
+FROM node:20-alpine 
+
+ENV SOCKET_DIR=/app/server_socket
+ENV SOCKET_PORT=8100
+
+#RUN apk add --update \
+#  bash \
+#  vim \
+
+RUN mkdir -p $SOCKET_DIR
+COPY /server_socket/ $SOCKET_DIR
+
+RUN cd $SOCKET_DIR && npm install
+ENTRYPOINT cd $SOCKET_DIR && node server.js

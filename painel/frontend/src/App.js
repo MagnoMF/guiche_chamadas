@@ -9,7 +9,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<TelaChamada />} />
-          <Route path="/painel" element={<PainelChamada />} />
+          <Route path="/PainelChamada" element={<PainelChamada />} />
         </Routes>
       </Router>
     </React.Fragment>
