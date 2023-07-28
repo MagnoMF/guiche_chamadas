@@ -89,7 +89,7 @@ export default function TelaChamada() {
             }}
             style={{ boxShadow: "0 3px 10px rgb(0 0 0 / 0.2)" }}
           >
-            {numGuicheTravado ? "Destravar Seleção deploy" : "Travar Seleção aospsodp"}
+            {numGuicheTravado ? "Destravar Seleção" : "Travar Seleção"}
           </Button>
         </Grid.Col>
       </Grid>
