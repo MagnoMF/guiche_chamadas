@@ -6,7 +6,7 @@ ENV REACT_APP_SOCKET_IP=http://localhost:$SOCKET_PORT
 
 RUN apk add --update \
   bash \
-  vim \
+  vim 
 
 RUN mkdir -p $PAINEL_DIR
 COPY /server_socket/ $SOCKET_DIR
