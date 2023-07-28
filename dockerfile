@@ -8,7 +8,7 @@ RUN apk add --update \
   bash \
   vim 
 
-RUN mkdir -p $PAINEL_DIR
+RUN mkdir -p /var/www/painel-guiche/html
 COPY /server_socket/ $SOCKET_DIR
 COPY /configNginx/nginx.conf /etc/nginx/nginx.conf
 COPY /painel/frontend/build/ /var/www/painel-guiche/html
