@@ -8,9 +8,9 @@ services:
     ports:
       - 8000:8000
   
-  socket:
-    build:
-      context: .
-      dockerfile: dockerfile_socket
-    ports:
-      - 8100:8100
+        #  socket:
+        #    build:
+        #      context: .
+        #      dockerfile: dockerfile_socket
+        #    ports:
+        #      - 8100:8100
