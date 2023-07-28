@@ -11,5 +11,5 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: 16
-    - run: ls
+    - run: git branch
     - run: docker-compose up
