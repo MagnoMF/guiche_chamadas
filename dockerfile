@@ -11,4 +11,4 @@ ENV REACT_APP_SOCKET_IP=http://localhost:$SOCKET_PORT
 RUN mkdir -p $PAINEL_DIR
 COPY /server_socket/ $SOCKET_DIR
 COPY /configNginx/nginx.conf /etc/nginx/nginx.conf
-COPY /painel/frontend/build/ $PAINEL_DIR
+COPY /painel/frontend/build/ /var/www/painel-guiche/html
