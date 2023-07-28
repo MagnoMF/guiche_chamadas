@@ -14,9 +14,12 @@ jobs:
         node-version: '18.x'
     - name: Build painel chamada
       working-directory: ./painel/frontend
-      run: npm install && npm run build
+      run: |
+        if [ -d build/ ]; then rm -rf build/; fi
+        npm install
+        npm run build
     - name: Iniciando docker
-      run: docker-compose up -d
+      run: docker-compose up -d --build
     
     
         
