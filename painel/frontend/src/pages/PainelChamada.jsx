@@ -26,7 +26,7 @@ export default function PainelChamada() {
       );
       synth.speak(toSpeak);
     });
-  }, []);
+  }, [synth]);
 
   return (
     <React.Fragment>
@@ -74,7 +74,6 @@ export default function PainelChamada() {
                 flexDirection: "row",
                 justifyContent: "center",
                 alignItems: "center",
-                boxShadow: "0 3px 10px rgb(0 0 0 / 0.2)",
                 backgroundColor: "#f8f7ff",
               }}
             >
