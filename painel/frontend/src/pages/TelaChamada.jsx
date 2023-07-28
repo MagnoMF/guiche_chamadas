@@ -1,8 +1,8 @@
 import { React, useEffect, useState } from "react";
 import chamarProximo from "../functions/chamarProximo";
 import pularSenha from "../functions/pularSenha";
-import { Grid, Select, Avatar, Button, Title, Modal } from "@mantine/core";
-import { socket } from "../socket";
+import { Avatar, Button, Grid, Select, Title } from "@mantine/core";
+import { socket } from "../functions/socketConnection";
 
 export default function TelaChamada() {
   const [numGuiche, setNumGuiche] = useState(null);
@@ -20,11 +20,11 @@ export default function TelaChamada() {
   function mudarSenhaAtual(senha) {
     if (senha > 99) {
       setSenhaAtual(99);
-      return
+      return;
     }
-    if(senha < 1) {
-      setSenhaAtual(1)
-      return
+    if (senha < 1) {
+      setSenhaAtual(1);
+      return;
     }
     setSenhaAtual(senha);
   }
@@ -115,7 +115,7 @@ export default function TelaChamada() {
               alignItems: "center",
             }}
           >
-            <Title style={{ fontSize: "3em" }}> Senha Atual</Title>
+            <Title style={{ fontSize: "3em" }}>Senha Atual</Title>
           </div>
 
           <div
