@@ -148,7 +148,7 @@ export default function PainelChamada() {
             }}
           >
             <Title style={{ fontSize: "3rem", fontWeigth: "bold" }}>
-              Guiche aaaaaa
+              Guiche
             </Title>
             <div>
               {arrChamadas.map((chamadaAnterior, keyMap) => {
