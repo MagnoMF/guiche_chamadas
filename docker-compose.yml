@@ -1,12 +1,12 @@
 version: '3'
 
 services:
-  #  painel:
-  #    build:
-  #      context: .
-  #      dockerfile: dockerfile
-  #    ports:
-  #      - 8000:8000
+  painel:
+    build:
+      context: .
+      dockerfile: dockerfile_frontend
+    ports:
+      - 8000:8000
   
   socket:
     build:
@@ -14,10 +14,3 @@ services:
       dockerfile: dockerfile_socket
     ports:
       - 8100:8100
-
-  socket2:
-    build:
-      context: .
-      dockerfile: dockerfile_socket
-    ports:
-      - 8101:8100
